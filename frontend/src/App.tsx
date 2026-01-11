@@ -147,13 +147,15 @@ function AppContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50">
       <Navbar activeView={activeView} onViewChange={setActiveView} />
       <TwoColumnLayout
         leftColumn={renderLeftColumn()}
         rightColumn={renderRightColumn()}
+        stickyRightColumn
+        stickyThreshold={167}
       />
-    </div>
+    </main>
   );
 }
 
