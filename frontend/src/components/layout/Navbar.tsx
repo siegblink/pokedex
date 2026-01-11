@@ -28,7 +28,7 @@ export function Navbar({ activeView, onViewChange }: NavbarProps) {
         <div className="flex items-center justify-between h-16">
           {/* App name */}
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-linear-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
               <svg
                 className="w-5 h-5 text-white"
                 fill="currentColor"
@@ -53,7 +53,7 @@ export function Navbar({ activeView, onViewChange }: NavbarProps) {
                 />
               </svg>
             </div>
-            <h1 className="text-xl font-bold text-gray-900">Pokemon Manager</h1>
+            <h1 className="text-xl font-bold text-gray-900">Pokedex</h1>
           </div>
 
           {/* Navigation buttons */}
