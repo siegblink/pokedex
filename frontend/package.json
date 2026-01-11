@@ -16,9 +16,11 @@
   "devDependencies": {
     "@eslint/js": "^9.36.0",
     "@tailwindcss/vite": "^4.1.18",
+    "@types/node": "^25.0.6",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.0.3",
+    "baseline-browser-mapping": "^2.9.14",
     "clsx": "^2.1.1",
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^5.2.0",
