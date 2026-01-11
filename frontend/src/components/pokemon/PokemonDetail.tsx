@@ -14,6 +14,7 @@ import type {
   Element,
   Ability,
   PokemonFormData,
+  AbilityFormData,
 } from "@appTypes/index";
 
 /**
@@ -24,6 +25,7 @@ type PokemonDetailProps = {
   elements: Element[];
   abilities: Ability[];
   onUpdate: (id: number, data: PokemonFormData) => Promise<Pokemon>;
+  onAbilityUpdate: (id: number, data: AbilityFormData) => Promise<Ability>;
   onDelete: (id: number) => Promise<void>;
 };
 
@@ -35,6 +37,7 @@ export function PokemonDetail({
   elements,
   abilities,
   onUpdate,
+  onAbilityUpdate,
   onDelete,
 }: PokemonDetailProps) {
   const { isEditing, startEditing, stopEditing, clearSelection, selectItem } =
@@ -63,6 +66,24 @@ export function PokemonDetail({
   }
 
   /**
+   * Update multiple abilities
+   */
+  async function updateAbilities(
+    updates: Array<{ id: number; data: AbilityFormData }>,
+  ) {
+    const results = await Promise.allSettled(
+      updates.map(({ id, data }) => onAbilityUpdate(id, data)),
+    );
+
+    const failures = results.filter((r) => r.status === "rejected");
+    if (failures.length > 0) {
+      throw new Error(
+        `Failed to save ${failures.length} of ${updates.length} abilities`,
+      );
+    }
+  }
+
+  /**
    * Delete the pokemon
    */
   async function deletePokemon() {
@@ -81,7 +102,9 @@ export function PokemonDetail({
       <PokemonForm
         pokemon={pokemon}
         elements={elements}
+        abilities={pokemonAbilities}
         onSubmit={updatePokemon}
+        onAbilitiesUpdate={updateAbilities}
         onCancel={stopEditing}
       />
     );
@@ -92,7 +115,7 @@ export function PokemonDetail({
       <Card variant="detail">
         {/* Header with image */}
         <div className="flex items-start gap-6 mb-6">
-          <div className="w-24 h-24 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0">
+          <div className="w-24 h-24 rounded-xl bg-gray-100 overflow-hidden shrink-0">
             <img
               src={pokemon.image_url}
               alt={pokemon.name}

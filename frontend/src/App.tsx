@@ -122,6 +122,7 @@ function AppContent() {
             elements={elements}
             abilities={abilities}
             onUpdate={updatePokemon}
+            onAbilityUpdate={updateAbility}
             onDelete={removePokemon}
           />
         );

@@ -48,6 +48,16 @@ export type ElementFormData = FormData<Element>;
 export type AbilityFormData = FormData<Ability>;
 
 /**
+ * Ability edit state for inline editing within Pokemon form
+ */
+export type AbilityEditData = {
+  id: number;
+  name: string;
+  description: string;
+  power: number;
+};
+
+/**
  * Entity type map for type-safe entity lookups
  */
 export type EntityMap = {
