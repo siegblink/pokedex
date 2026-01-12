@@ -33,10 +33,16 @@ import {
 import { useAbilities } from "@hooks/useAbilities";
 
 /**
+ * Search
+ */
+import { useSearchIndex } from "@hooks/useSearchIndex";
+
+/**
  * App content component
  */
 function AppContent() {
-  const { activeView, setActiveView, selectedItem } = useAppContext();
+  const { activeView, setActiveView, selectedItem, searchQuery, setSearchQuery } =
+    useAppContext();
 
   /**
    * Data hooks
@@ -66,6 +72,12 @@ function AppContent() {
   } = useAbilities();
 
   /**
+   * Create search index for O(k) Trie-based search
+   */
+  const { filteredPokemon, filteredElements, filteredAbilities } =
+    useSearchIndex(pokemon, elements, abilities, searchQuery, activeView);
+
+  /**
    * Render left column based on active view
    */
   function renderLeftColumn() {
@@ -73,7 +85,7 @@ function AppContent() {
       case "pokemon":
         return (
           <PokemonList
-            pokemon={pokemon}
+            pokemon={filteredPokemon}
             elements={elements}
             loading={pokemonLoading || elementsLoading}
             error={pokemonError || elementsError}
@@ -82,7 +94,7 @@ function AppContent() {
       case "elements":
         return (
           <ElementList
-            elements={elements}
+            elements={filteredElements}
             loading={elementsLoading}
             error={elementsError}
           />
@@ -90,7 +102,7 @@ function AppContent() {
       case "abilities":
         return (
           <AbilityList
-            abilities={abilities}
+            abilities={filteredAbilities}
             pokemon={pokemon}
             loading={abilitiesLoading || pokemonLoading}
             error={abilitiesError || pokemonError}
@@ -149,7 +161,12 @@ function AppContent() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <Navbar activeView={activeView} onViewChange={setActiveView} />
+      <Navbar
+        activeView={activeView}
+        onViewChange={setActiveView}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+      />
       <TwoColumnLayout
         leftColumn={renderLeftColumn()}
         rightColumn={renderRightColumn()}

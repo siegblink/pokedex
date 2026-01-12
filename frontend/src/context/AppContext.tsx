@@ -24,6 +24,10 @@ type AppContextType = {
   isEditing: boolean;
   startEditing: () => void;
   stopEditing: () => void;
+
+  // Search state
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
 };
 
 /**
@@ -45,6 +49,7 @@ export function AppProvider({ children }: AppProviderProps) {
   const [activeView, setActiveViewState] = useState<ActiveView>("pokemon");
   const [selectedItem, setSelectedItem] = useState<SelectedItem>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [searchQuery, setSearchQueryState] = useState("");
 
   /**
    * Set the active view.
@@ -53,9 +58,19 @@ export function AppProvider({ children }: AppProviderProps) {
    */
   const setActiveView = useCallback((view: ActiveView) => {
     setActiveViewState(view);
-    // Clear selection when switching views
+    // Clear selection and search when switching views
     setSelectedItem(null);
     setIsEditing(false);
+    setSearchQueryState("");
+  }, []);
+
+  /**
+   * Set the search query.
+   * @param {string} query The search query
+   * @returns {void}
+   */
+  const setSearchQuery = useCallback((query: string) => {
+    setSearchQueryState(query);
   }, []);
 
   /**
@@ -104,6 +119,8 @@ export function AppProvider({ children }: AppProviderProps) {
     isEditing,
     startEditing,
     stopEditing,
+    searchQuery,
+    setSearchQuery,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
